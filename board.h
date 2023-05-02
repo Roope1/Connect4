@@ -2,7 +2,9 @@
 
 #define BOARD_WIDTH 7
 #define BOARD_HEIGTH 6
-#define BLANK_CHAR '0'
+#define BLANK_CHAR '-'
+#define PLAYER1 'o'
+#define PLAYER2 'x'
 
 
 class Board 

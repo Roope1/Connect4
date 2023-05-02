@@ -36,7 +36,7 @@ void Board::print()
 /* Inserts a mark to the board, returns false if move is invalid */
 bool Board::insert(int row, bool player1) 
 {
-    char mark = (player1) ? 'X' : 'O';
+    char mark = (player1) ? PLAYER1 : PLAYER2;
     
     // Check that the given row is on the table
     if (row < 1 || row > BOARD_WIDTH) {

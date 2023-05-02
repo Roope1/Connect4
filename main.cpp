@@ -17,12 +17,14 @@ int main() {
 
     // Main game loop
     while (1) {
-
         player = (player1_turn) ? 1 : 2;
         std::cout << "Player " << player << " choice (1-7): ";
         std::cin >> choice; 
         // TODO: input checking
-        board.insert(choice, player1_turn);
+        if (board.insert(choice, player1_turn) == false) 
+        {
+            continue;
+        }
         board.print();
 
         // switch turns
