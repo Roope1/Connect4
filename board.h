@@ -13,5 +13,6 @@ class Board
         char board[BOARD_HEIGTH][BOARD_WIDTH];
         Board();
         void print();
-        bool insert(int row, bool player1);
+        bool insert(int col, bool player1);
+        int check_state();
 };
