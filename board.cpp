@@ -6,7 +6,7 @@
 Board::Board() 
 {
     // Initialize board with empty when creating board
-    for (int i = 0; i < BOARD_HEIGTH; i++)
+    for (int i = 0; i < BOARD_HEIGHT; i++)
     {
         for (int j = 0; j < BOARD_WIDTH; j++) 
         {
@@ -25,7 +25,7 @@ void Board::print()
     }
     std::cout << "\n\n";
 
-    for (int i = 0; i < BOARD_HEIGTH; i++) 
+    for (int i = 0; i < BOARD_HEIGHT; i++) 
     {
         for (int j = 0; j < BOARD_WIDTH; j++) 
             {
@@ -42,7 +42,7 @@ bool Board::insert(int col, bool player1)
     
     // Check that the given col is on the table
     if (col < 1 || col > BOARD_WIDTH) {
-        std::cout << "Please select only numbers between 1 and 7" << std::endl;
+        std::cout << "Please select only numbers between 1 and " << BOARD_WIDTH  << std::endl;
         return false;
     }
 
@@ -52,7 +52,7 @@ bool Board::insert(int col, bool player1)
         return false;
     }
 
-    for (int i = 0; i < BOARD_HEIGTH + 1; i++)
+    for (int i = 0; i < BOARD_HEIGHT + 1; i++)
     {
         if (board[i][col - 1] != BLANK_CHAR && i != 0)
         {
@@ -75,7 +75,7 @@ int Board::check_state()
 {
     
     // check horizontal wins
-    for (int i = 0; i < BOARD_HEIGTH + 1; i++)
+    for (int i = 0; i < BOARD_HEIGHT + 1; i++)
     {
         for (int j = 0; j < (BOARD_WIDTH / 2) + 2; j++)
         {
@@ -90,7 +90,7 @@ int Board::check_state()
     }
 
     // check vertical wins
-    for (int i = 0; i < (BOARD_HEIGTH / 2) + 1; i++)
+    for (int i = 0; i < (BOARD_HEIGHT / 2) + 1; i++)
     {
         for (int j = 0; j < BOARD_WIDTH + 1; j++)
         {
@@ -104,7 +104,66 @@ int Board::check_state()
         }
     }
 
-    // TODO: check diagonal wins
+    // check diagonal wins down-right
+    for  (int i = (BOARD_HEIGHT / 2 ); i < BOARD_HEIGHT + 1; i++) 
+    {
+        for (int j = 0; j < (BOARD_WIDTH / 2 ) + 2; j++)
+        {
+            if ((board[i][j] == board[i + 1][j + 1]
+            && board[i + 1][j + 1] == board[i + 2][j + 2]
+            && board[i + 2][j + 2] == board[i + 3][j + 3]) 
+            && board[i][j] != BLANK_CHAR)
+            { 
+                return (board[i][j] == PLAYER1) ? 2 : 3; 
+            }
+        }
+    }
+
+    // check diagonal wins up-right
+    for  (int i = (BOARD_HEIGHT / 2 ); i < BOARD_HEIGHT + 1; i++) 
+    {
+        for (int j = (BOARD_WIDTH / 2 ); j < BOARD_WIDTH + 1; j++)
+        {
+            if ((board[i][j] == board[i - 1][j + 1]
+            && board[i - 1][j + 1] == board[i - 2][j + 2]
+            && board[i - 2][j + 2] == board[i - 3][j + 3]) 
+            && board[i][j] != BLANK_CHAR)
+            { 
+                return (board[i][j] == PLAYER1) ? 2 : 3; 
+            }
+        }
+    }
+
+    // check diagonal wins up-left
+    for  (int i = BOARD_HEIGHT / 2; i < BOARD_HEIGHT + 1; i++) 
+    {
+        for (int j = BOARD_WIDTH / 2; j < BOARD_WIDTH + 1; j++)
+        {
+            if ((board[i][j] == board[i - 1][j - 1]
+            && board[i - 1][j - 1] == board[i - 2][j - 2]
+            && board[i - 2][j - 2] == board[i - 3][j - 3]) 
+            && board[i][j] != BLANK_CHAR)
+            { 
+                return (board[i][j] == PLAYER1) ? 2 : 3; 
+            }
+        }
+    }
+
+    // check diagonal wins down-left
+    for  (int i = 0; i < (BOARD_HEIGHT / 2) + 1; i++) 
+    {
+        for (int j = BOARD_WIDTH / 2; j < BOARD_WIDTH + 1; j++)
+        {
+            if ((board[i][j] == board[i - 1][j + 1]
+            && board[i - 1][j + 1] == board[i - 2][j + 2]
+            && board[i - 2][j + 2] == board[i - 3][j + 3]) 
+            && board[i][j] != BLANK_CHAR)
+            { 
+                return (board[i][j] == PLAYER1) ? 2 : 3; 
+            }
+        }
+    }
+
 
     // if top row is not full after win checks the game is ongoing
     for (int i = 0; i < BOARD_WIDTH + 1; i++) 
@@ -114,6 +173,6 @@ int Board::check_state()
         }
     }
 
-    // if got to end game is still ongoing
+    // if got to end game is over and tied
     return 1;
 }
