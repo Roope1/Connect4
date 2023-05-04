@@ -1,6 +1,8 @@
 #include <iostream>
 #include "board.h"
 
+#define DEBUG 1
+
 Board::Board() 
 {
     // Initialize board with empty when creating board
@@ -71,34 +73,38 @@ bool Board::insert(int col, bool player1)
 */
 int Board::check_state()
 {
-    // the row and col that are being checked atm
-    int curr_row = 0;
-    int curr_col = 0;
-    char mark = BLANK_CHAR;
-
-    // check horizontal axis
+    
+    // check horizontal wins
     for (int i = 0; i < BOARD_HEIGTH + 1; i++)
     {
-        for (int j = curr_col; j < (BOARD_WIDTH / 2) + 2; j++)
+        for (int j = 0; j < (BOARD_WIDTH / 2) + 2; j++)
         {
-            if (j == curr_col) // first pass through => save current mark
-            {
-                mark = board[i][j];
-                if (mark == BLANK_CHAR)
-                {
-                    continue;
-                }
-            }
-
             if ((board[i][j] == board[i][j + 1]
             && board[i][j + 1] == board[i][j + 2]
             && board[i][j + 2] == board[i][j + 3]) 
             && board[i][j] != BLANK_CHAR)
             { 
-                return (mark == PLAYER1) ? 2 : 3; 
+                return (board[i][j] == PLAYER1) ? 2 : 3; 
             }
         }
     }
+
+    // check vertical wins
+    for (int i = 0; i < (BOARD_HEIGTH / 2) + 1; i++)
+    {
+        for (int j = 0; j < BOARD_WIDTH + 1; j++)
+        {
+            if ((board[i][j] == board[i + 1][j]
+            && board[i + 1][j] == board[i + 2][j]
+            && board[i + 2][j] == board[i + 3][j]) 
+            && board[i][j] != BLANK_CHAR)
+            { 
+                return (board[i][j] == PLAYER1) ? 2 : 3; 
+            }
+        }
+    }
+
+    // TODO: check diagonal wins
 
     // if top row is not full after win checks the game is ongoing
     for (int i = 0; i < BOARD_WIDTH + 1; i++) 
