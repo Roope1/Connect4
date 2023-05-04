@@ -9,7 +9,7 @@ int main() {
 	// Initializing stuff
     Board board = Board();
     board.print();
-    int player, choice;
+    int player, choice, game_status;
     bool player1_turn = true;
 
     // Main game loop
@@ -37,7 +37,7 @@ int main() {
         {
             std::cout << board.check_state();
         }
-        if (board.check_state() != 0)
+        if ((game_status = board.check_state()) != 0)
         {
             break;
         }
@@ -45,4 +45,26 @@ int main() {
         // switch turns
         player1_turn ^= true;
     }
+
+    // game over
+    std::cout << "\n\n";
+
+    switch (game_status) 
+    {
+        case 1:
+            std::cout << "GAME OVER! ITS A TIE" << std::endl;
+            break;
+
+        case 2: 
+            std::cout << "PLAYER 1 WINS" << std::endl;
+            break;
+
+        case 3:
+            std::cout << "PLAYER 2 WINS" << std::endl;
+            break;
+    }
+    
+    std::cout << "\n";
+
+    return 0;
 }
